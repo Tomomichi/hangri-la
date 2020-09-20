@@ -3,19 +3,26 @@ import Link from 'next/link'
 
 export default function Index({word}) {
   return (
-    <div className="container mx-auto">
-      <h1 className="text-6xl">{word.id}</h1>
-
-      <div>
-        { word.chars.map(char => (
-          <div key={char} className="text-3xl">
-            <Link href="/chars/[id]" as={`/chars/${char}`}>
-              <a>{char}</a>
-            </Link>
-          </div>
-        )) }
+    <>
+      <div className="py-4 border-solid border-4 text-center">
+        <h1 className="text-2xl">{word.id}</h1>
       </div>
-    </div>
+
+      <div className="my-12">
+        <h3 className="text-lg font-bold mb-4">▼ 「{word.id}」に含まれる漢字</h3>
+        <ul className="border-b-2">
+          { word.chars.map(char => (
+            <Link href="/chars/[id]" as={`/chars/${char}`}>
+              <a>
+                <li key={char} className="p-3 border-t-2">
+                  {char}
+                </li>
+              </a>
+            </Link>
+          )) }
+        </ul>
+      </div>
+    </>
   )
 }
 

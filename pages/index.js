@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function Index({items}) {
   return (
-    <div className="container mx-auto">
+    <div>
       { items.map((item) => (
         <div key={item.id} className="text-2xl">
           <Link href="/chars/[id]" as={`/chars/${item.id}`}>
