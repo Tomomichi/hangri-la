@@ -1,19 +1,19 @@
 import Link from 'next/link'
 import { firebase } from '../../lib/firebase.js'
 
-export default function Index({item, words}) {
+export default function Index({char, words}) {
   return (
     <>
-      <div className="flex flex-col text-center mb-12">
-        <div className="py-4 border-solid border-4 border-b-2">
-          <h1 className="text-2xl">{item.char}</h1>
+      <div className="flex flex-col bg-gray-200 text-center mb-12">
+        <div className="py-4 border-white border-b-4 font-bold">
+          <h1 className="text-2xl">{char.id}</h1>
         </div>
         <div className="flex flex-row">
-          <div className="py-4 flex-1 border-solid border-4 border-t-2 border-r-2">
-            <div className="text-2xl">{item.hangul}</div>
+          <div className="py-4 flex-1 border-white border-r-2">
+            <div className="text-2xl">{char.hangul}</div>
           </div>
-          <div className="py-4 flex-1 border-solid border-4 border-t-2 border-l-2">
-            { item.kana.map((kana) => (
+          <div className="py-4 flex-1 border-white border-l-2">
+            { char.kana.map((kana) => (
               <div key={kana.value} className="text-2xl">{kana.value}</div>
             )) }
           </div>
@@ -21,19 +21,37 @@ export default function Index({item, words}) {
       </div>
 
       <div className="my-12">
-        <h3 className="text-lg font-bold mb-4">▼ 「{item.char}」が含まれる熟語</h3>
+        <h3 className="text-lg font-bold mb-4">▼ 「{char.id}」が含まれる熟語</h3>
         <ul className="border-b-2">
           { words.map(word => (
-            <Link href="/words/[id]" as={`/words/${word.id}`}>
+            <Link key={word.id} href="/words/[id]" as={`/words/${word.id}`}>
               <a>
-                <li key={word.id} className="p-3 border-t-2">
+                <li className="p-3 border-t-2">
                   {word.id}
                 </li>
               </a>
             </Link>
           )) }
+          { words.length == 0 &&
+            <li className="p-3 border-t-2 text-sm">（まだ熟語が登録されていません…）</li>
+          }
         </ul>
       </div>
+
+      { char.conjugations &&
+        <div className="my-12">
+          <h3 className="text-lg font-bold mb-4">▼ 「{char.id}」の活用</h3>
+          <ul className="border-b-2">
+            { char.conjugations.map(conj => (
+              <li key={conj.value} className="p-3 border-t-2">
+                <span>{char.hangul}({char.id})</span>
+                <span>{conj.value} : </span>
+                <span>{conj.meaning}</span>
+              </li>
+            )) }
+          </ul>
+        </div>
+      }
     </>
   )
 }
@@ -43,6 +61,7 @@ export async function getStaticPaths() {
   const paths = [
     { params: { id: '漢' } },
     { params: { id: '字' } },
+    { params: { id: '向' } },
   ];
 
   return {
@@ -53,22 +72,20 @@ export async function getStaticPaths() {
 
 
 export async function getStaticProps({params}) {
-  let docRef = firebase.firestore().collection('chars').doc(params.id);
-  const doc = await docRef.get();
-  const item = doc.data();
+  // char
+  const charDoc = await firebase.firestore().collection('chars').doc(params.id).get();
+  const char = Object.assign(charDoc.data(), {id: charDoc.id});
 
-  const snapshot = await firebase.firestore().collection('words').where('chars', 'array-contains', item.char).get();
-  let words = [];
-  snapshot.forEach(doc => {
-    const data = doc.data();
-    data.id = doc.id;
-    words.push(data);
-  });
+  // words
+  const wordsSnapshot = await firebase.firestore().collection('words').where('chars', 'array-contains', char.id).get();
+  const words = wordsSnapshot.docs.map(doc =>
+    Object.assign(doc.data(), {id: doc.id})
+  );
 
 
   return {
     props: {
-      item: item,
+      char: char,
       words: words,
     }
   }
