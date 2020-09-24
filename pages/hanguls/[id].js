@@ -1,5 +1,5 @@
 import { firebase } from '../../lib/firebase.js'
-import Link from 'next/link'
+import ListItem from '../../components/listItem.js'
 
 export default function Index({hangul, chars}) {
   return (
@@ -14,13 +14,7 @@ export default function Index({hangul, chars}) {
         <h3 className="text-lg font-bold mb-4">▼ 「{hangul}」と読む漢字</h3>
         <ul className="border-t-2">
           { chars.map(char => (
-            <Link key={char.id} href="/chars/[id]" as={`/chars/${char.id}`}>
-              <a>
-                <li className="p-3 border-b-2">
-                  {char.id}
-                </li>
-              </a>
-            </Link>
+            <ListItem key={char.id} href="/chars/[id]" as={`/chars/${char.id}`} content={char.id} />
           )) }
         </ul>
       </div>

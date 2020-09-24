@@ -1,5 +1,5 @@
 import { firebase } from '../../lib/firebase.js'
-import Link from 'next/link'
+import ListItem from '../../components/listItem.js'
 
 export default function Index({word, chars, homonyms}) {
   return (
@@ -30,13 +30,7 @@ export default function Index({word, chars, homonyms}) {
         <h3 className="text-lg font-bold mb-4">▼ 「{word.id}」に含まれる漢字</h3>
         <ul className="border-t-2">
           { chars.map(char => (
-            <Link key={char.id} href="/chars/[id]" as={`/chars/${char.id}`}>
-              <a>
-                <li className="p-3 border-b-2">
-                  {char.id}
-                </li>
-              </a>
-            </Link>
+            <ListItem key={char.id} href="/chars/[id]" as={`/chars/${char.id}`} content={char.id} />
           )) }
         </ul>
       </div>
@@ -45,14 +39,8 @@ export default function Index({word, chars, homonyms}) {
         <div className="my-12">
           <h3 className="text-lg font-bold mb-4">▼ 「{word.id}」とハングルが同じ熟語</h3>
           <ul className="border-t-2">
-            { homonyms.map(word => (
-              <Link key={word.id} href="/words/[id]" as={`/words/${word.id}`}>
-                <a>
-                  <li className="p-3 border-b-2">
-                    {word.id}
-                  </li>
-                </a>
-              </Link>
+            { homonyms.map(homonym => (
+              <ListItem key={homonym.id} href="/words/[id]" as={`/words/${homonym.id}`} content={homonym.id} />
             )) }
           </ul>
         </div>

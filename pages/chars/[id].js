@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { firebase } from '../../lib/firebase.js'
+import ListItem from '../../components/listItem.js'
 
 export default function Index({char, words}) {
   return (
@@ -24,16 +24,10 @@ export default function Index({char, words}) {
         <h3 className="text-lg font-bold mb-4">▼ 「{char.id}」が含まれる熟語</h3>
         <ul className="border-t-2">
           { words.map(word => (
-            <Link key={word.id} href="/words/[id]" as={`/words/${word.id}`}>
-              <a>
-                <li className="p-3 border-b-2">
-                  {word.id}
-                </li>
-              </a>
-            </Link>
+            <ListItem key={word.id} href="/words/[id]" as={`/words/${word.id}`} content={word.id} />
           )) }
           { words.length == 0 &&
-            <li className="p-3 border-b-2 text-sm">（まだ熟語が登録されていません…）</li>
+            <ListItem content="（まだ熟語が登録されていません…）" />
           }
         </ul>
       </div>
@@ -43,11 +37,11 @@ export default function Index({char, words}) {
           <h3 className="text-lg font-bold mb-4">▼ 「{char.id}」の活用</h3>
           <ul className="border-t-2">
             { char.conjugations.map(conj => (
-              <li key={conj.value} className="p-3 border-b-2">
-                <span>{char.hangul}({char.id})</span>
-                <span>{conj.value} : </span>
-                <span>{conj.meaning}</span>
-              </li>
+              <ListItem key={conj.value} content={`
+                <span>${char.hangul}(${char.id})</span>
+                <span>${conj.value} : </span>
+                <span>${conj.meaning}</span>
+              `} />
             )) }
           </ul>
         </div>
