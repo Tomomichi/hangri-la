@@ -58,15 +58,14 @@ export default function Index({char, words}) {
 
 
 export async function getStaticPaths() {
-  const paths = [
-    { params: { id: '漢' } },
-    { params: { id: '字' } },
-    { params: { id: '向' } },
-  ];
+  const snapshot = await firebase.firestore().collection('chars').get();
+  const paths = snapshot.docs.map(doc => {
+    return {params: {id: doc.id}}
+  });
 
   return {
     paths,
-    fallback: false
+    fallback: false,
   }
 }
 

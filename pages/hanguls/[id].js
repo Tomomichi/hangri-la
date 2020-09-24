@@ -16,14 +16,15 @@ export default function Index({hangul, chars}) {
 
 
 export async function getStaticPaths() {
-  const paths = [
-    { params: { id: '한' } },
-    { params: { id: '자' } },
-  ];
+  const snapshot = await firebase.firestore().collection('chars').get();
+  const hanguls = [...new Set(snapshot.docs.map(doc => doc.data().hangul))];  //重複削除
+  const paths = hanguls.map(h => {
+    return { params: {id: h} }
+  });
 
   return {
     paths,
-    fallback: false
+    fallback: true,
   }
 }
 
