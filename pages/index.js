@@ -6,11 +6,11 @@ export default function Index({chars, words}) {
     <div>
       <div className="mb-12">
         <h3 className="text-lg font-bold mb-4">▼ 最近登録された漢字</h3>
-        <ul className="border-b-2">
+        <ul className="border-t-2">
           { chars.map(char => (
             <Link key={char.id} href="/chars/[id]" as={`/chars/${char.id}`}>
               <a>
-                <li className="p-3 border-t-2">
+                <li className="p-3 border-b-2">
                   {char.id}
                   <small className="text-sm ml-1">({char.hangul})</small>
                 </li>
@@ -22,12 +22,13 @@ export default function Index({chars, words}) {
 
       <div className="mb-12">
         <h3 className="text-lg font-bold mb-4">▼ 最近登録された熟語</h3>
-        <ul className="border-b-2">
+        <ul className="border-t-2">
           { words.map(word => (
             <Link key={word.id} href="/words/[id]" as={`/words/${word.id}`}>
               <a>
-                <li className="p-3 border-t-2">
+                <li className="p-3 border-b-2">
                   {word.id}
+                  <small className="text-sm ml-1">({word.hangul})</small>
                 </li>
               </a>
             </Link>
@@ -57,7 +58,6 @@ export async function getStaticProps(context) {
   wordCharsSnapshot.forEach(doc => {
     wordChars[doc.id] = Object.assign(doc.data(), {id: doc.id});
   });
-  console.log(wordChars);
 
   // words.forEach(word => {
   //   word.chars.forEach

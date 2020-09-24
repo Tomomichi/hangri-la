@@ -1,22 +1,22 @@
 import { firebase } from '../../lib/firebase.js'
 import Link from 'next/link'
 
-export default function Index({word, chars}) {
+export default function Index({word, chars, homonyms}) {
   return (
     <>
-      <div className="flex flex-col bg-gray-200 text-center mb-12">
+      <div className="flex flex-col bg-gray-200 text-center mb-12 rounded">
         <div className="py-4 border-white border-b-4 font-bold">
           <p className="text-2xl">{word.id}</p>
         </div>
         <div className="flex flex-row">
-          <div className="flex-1 py-4 bg-gray-200 text-center border-white border-r-2">
+          <div className="flex-1 py-4 border-white border-r-2">
             <p className="text-2xl">
               { chars.map(char => (
                 <span key={char.id}>{char.hangul}</span>
               )) }
             </p>
           </div>
-          <div className="flex-1 py-4 bg-gray-200 text-center border-white border-l-2">
+          <div className="flex-1 py-4 border-white border-l-2">
             <p className="text-2xl">
               { chars.map(char => (
                 <span key={char.id}>{char.kana[0]["value"]}</span>
@@ -28,11 +28,11 @@ export default function Index({word, chars}) {
 
       <div className="my-12">
         <h3 className="text-lg font-bold mb-4">▼ 「{word.id}」に含まれる漢字</h3>
-        <ul className="border-b-2">
+        <ul className="border-t-2">
           { chars.map(char => (
             <Link key={char.id} href="/chars/[id]" as={`/chars/${char.id}`}>
               <a>
-                <li className="p-3 border-t-2">
+                <li className="p-3 border-b-2">
                   {char.id}
                 </li>
               </a>
@@ -40,6 +40,23 @@ export default function Index({word, chars}) {
           )) }
         </ul>
       </div>
+
+      { homonyms.length > 0 &&
+        <div className="my-12">
+          <h3 className="text-lg font-bold mb-4">▼ 「{word.id}」とハングルが同じ熟語</h3>
+          <ul className="border-t-2">
+            { homonyms.map(word => (
+              <Link key={word.id} href="/words/[id]" as={`/words/${word.id}`}>
+                <a>
+                  <li className="p-3 border-b-2">
+                    {word.id}
+                  </li>
+                </a>
+              </Link>
+            )) }
+          </ul>
+        </div>
+      }
     </>
   )
 }
@@ -71,10 +88,20 @@ export async function getStaticProps({params}) {
     chars[index] = Object.assign(doc.data(), {id: doc.id});
   });
 
+  // homonyms（同音異義語）
+  const homosSnapshot = await firebase.firestore().collection('words')
+                                .where("hangul", "==", word.hangul)
+                                .where(firebase.firestore.FieldPath.documentId(), "!=", word.id)  // 自分自身を除外
+                                .get();
+  const homonyms = homosSnapshot.docs.map(doc =>
+    Object.assign(doc.data(), {id: doc.id})
+  );
+
   return {
     props: {
       word: word,
       chars: chars,
+      homonyms: homonyms,
     }
   }
 }

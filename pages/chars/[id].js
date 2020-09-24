@@ -4,7 +4,7 @@ import { firebase } from '../../lib/firebase.js'
 export default function Index({char, words}) {
   return (
     <>
-      <div className="flex flex-col bg-gray-200 text-center mb-12">
+      <div className="flex flex-col bg-gray-200 text-center mb-12 rounded">
         <div className="py-4 border-white border-b-4 font-bold">
           <h1 className="text-2xl">{char.id}</h1>
         </div>
@@ -22,18 +22,18 @@ export default function Index({char, words}) {
 
       <div className="my-12">
         <h3 className="text-lg font-bold mb-4">▼ 「{char.id}」が含まれる熟語</h3>
-        <ul className="border-b-2">
+        <ul className="border-t-2">
           { words.map(word => (
             <Link key={word.id} href="/words/[id]" as={`/words/${word.id}`}>
               <a>
-                <li className="p-3 border-t-2">
+                <li className="p-3 border-b-2">
                   {word.id}
                 </li>
               </a>
             </Link>
           )) }
           { words.length == 0 &&
-            <li className="p-3 border-t-2 text-sm">（まだ熟語が登録されていません…）</li>
+            <li className="p-3 border-b-2 text-sm">（まだ熟語が登録されていません…）</li>
           }
         </ul>
       </div>
@@ -41,9 +41,9 @@ export default function Index({char, words}) {
       { char.conjugations &&
         <div className="my-12">
           <h3 className="text-lg font-bold mb-4">▼ 「{char.id}」の活用</h3>
-          <ul className="border-b-2">
+          <ul className="border-t-2">
             { char.conjugations.map(conj => (
-              <li key={conj.value} className="p-3 border-t-2">
+              <li key={conj.value} className="p-3 border-b-2">
                 <span>{char.hangul}({char.id})</span>
                 <span>{conj.value} : </span>
                 <span>{conj.meaning}</span>

@@ -1,16 +1,30 @@
 import { firebase } from '../../lib/firebase.js'
+import Link from 'next/link'
 
 export default function Index({hangul, chars}) {
   return (
-    <div className="container mx-auto">
-      <h1 className="text-6xl">{hangul}</h1>
-
-      <div>
-        { chars.map(char => (
-          <div key={char.id} className="text-3xl">{char.id}</div>
-        )) }
+    <>
+      <div className="flex flex-col bg-gray-200 text-center mb-12 rounded">
+        <div className="py-4 font-bold">
+          <h1 className="text-2xl">{hangul}</h1>
+        </div>
       </div>
-    </div>
+
+      <div className="my-12">
+        <h3 className="text-lg font-bold mb-4">▼ 「{hangul}」と読む漢字</h3>
+        <ul className="border-t-2">
+          { chars.map(char => (
+            <Link key={char.id} href="/chars/[id]" as={`/chars/${char.id}`}>
+              <a>
+                <li className="p-3 border-b-2">
+                  {char.id}
+                </li>
+              </a>
+            </Link>
+          )) }
+        </ul>
+      </div>
+    </>
   )
 }
 
@@ -31,13 +45,9 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({params}) {
   const snapshot = await firebase.firestore().collection('chars').where('hangul', '==', params.id).get();
-  let chars = [];
-  snapshot.forEach(doc => {
-    const data = doc.data();
-    data.id = doc.id;
-    chars.push(data);
-  });
-
+  const chars = snapshot.docs.map(doc =>
+    Object.assign(doc.data(), {id: doc.id})
+  );
 
   return {
     props: {
