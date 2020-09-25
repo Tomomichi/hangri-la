@@ -52,13 +52,13 @@ export default function Index({word, chars, homonyms}) {
 
 export async function getStaticPaths() {
   const snapshot = await firebase.firestore().collection('words').get();
-  const paths = snapshot.docs.map(doc => {
+  const paths = await snapshot.docs.map(doc => {
     return {params: {id: doc.id}}
   });
 
   return {
     paths,
-    fallback: true,
+    fallback: false,
   }
 }
 
@@ -66,7 +66,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({params}) {
   // word
   const wordDoc = await firebase.firestore().collection('words').doc(params.id).get();
-  const word = Object.assign(wordDoc.data(), {id: wordDoc.id});
+  const word = await Object.assign(wordDoc.data(), {id: wordDoc.id});
 
   // chars
   const charsSnapshot = await firebase.firestore().collection('chars').where(firebase.firestore.FieldPath.documentId(), "in", word.chars).get();

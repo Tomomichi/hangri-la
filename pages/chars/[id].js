@@ -53,7 +53,7 @@ export default function Index({char, words}) {
 
 export async function getStaticPaths() {
   const snapshot = await firebase.firestore().collection('chars').get();
-  const paths = snapshot.docs.map(doc => {
+  const paths = await snapshot.docs.map(doc => {
     return {params: {id: doc.id}}
   });
 
