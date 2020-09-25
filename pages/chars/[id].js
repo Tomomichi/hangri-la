@@ -1,7 +1,8 @@
 import { firebase } from '../../lib/firebase.js'
+import Link from 'next/link'
 import ListItem from '../../components/listItem.js'
 
-export default function Index({char, words}) {
+export default function Index({char, words, homonyms}) {
   return (
     <>
       <div className="flex flex-col bg-gray-200 text-center mb-12 rounded">
@@ -46,6 +47,29 @@ export default function Index({char, words}) {
           </ul>
         </div>
       }
+
+      { homonyms.length > 0 &&
+        <div className="my-12">
+          <h3 className="text-lg font-bold mb-4">▼ 「{char.id}」と同じハングルの漢字</h3>
+          <ul className="border-t-2">
+            { homonyms.map(homo => (
+              <ListItem key={homo.id} content={`
+                ${homo.id}
+                <small className="text-sm ml-1">(${homo.hangul})</small>
+              `} />
+            )) }
+          </ul>
+
+          <Link href="/hanguls/[:id]" as={`/hanguls/${char.hangul}`}>
+            <a className="mt-4 flex items-center justify-end text-sm text-gray-800">
+              <svg className="fill-current text-gray-700 h-4 w-4 inline" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+              </svg>
+              すべての漢字を見る
+            </a>
+          </Link>
+        </div>
+      }
     </>
   )
 }
@@ -67,19 +91,28 @@ export async function getStaticPaths() {
 export async function getStaticProps({params}) {
   // char
   const charDoc = await firebase.firestore().collection('chars').doc(params.id).get();
-  const char = Object.assign(charDoc.data(), {id: charDoc.id});
+  const char = await Object.assign(charDoc.data(), {id: charDoc.id});
 
   // words
   const wordsSnapshot = await firebase.firestore().collection('words').where('chars', 'array-contains', char.id).get();
-  const words = wordsSnapshot.docs.map(doc =>
+  const words = await wordsSnapshot.docs.map(doc =>
     Object.assign(doc.data(), {id: doc.id})
   );
 
+  // homonyms（同音異義語）
+  const homosSnapshot = await firebase.firestore().collection('chars')
+                                .where("hangul", "==", char.hangul)
+                                .where(firebase.firestore.FieldPath.documentId(), "!=", char.id)  // 自分自身を除外
+                                .get();
+  const homonyms = homosSnapshot.docs.map(doc =>
+    Object.assign(doc.data(), {id: doc.id})
+  );
 
   return {
     props: {
       char: char,
       words: words,
+      homonyms: homonyms,
     }
   }
 }
