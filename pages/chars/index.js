@@ -1,9 +1,14 @@
 import { firebase } from '../../lib/firebase.js'
 import ListItem from '../../components/listItem.js'
+import Breadcrumb from '../../components/breadcrumb.js'
 
 export default function Index({chars}) {
   return (
     <>
+      <Breadcrumb items={[
+        {text: '漢字'},
+      ]} />
+
       <div>
         <h3 className="text-lg font-bold mb-4">▼ 漢字一覧</h3>
         <ul className="border-t-2">

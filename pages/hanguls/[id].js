@@ -1,9 +1,15 @@
 import { firebase } from '../../lib/firebase.js'
 import ListItem from '../../components/listItem.js'
+import Breadcrumb from '../../components/breadcrumb.js'
 
 export default function Index({hangul, chars}) {
   return (
     <>
+      <Breadcrumb items={[
+        {text: 'ハングル', href: '/hanguls', as: '/hanguls'},
+        {text: hangul},
+      ]} />
+
       <div className="flex flex-col bg-gray-200 text-center mb-12 rounded">
         <div className="py-4 font-bold">
           <h1 className="text-2xl">{hangul}</h1>

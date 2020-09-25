@@ -1,10 +1,16 @@
 import { firebase } from '../../lib/firebase.js'
 import Link from 'next/link'
 import ListItem from '../../components/listItem.js'
+import Breadcrumb from '../../components/breadcrumb.js'
 
 export default function Index({char, words, homonyms}) {
   return (
     <>
+      <Breadcrumb items={[
+        {text: '漢字', href: '/chars', as: '/chars'},
+        {text: char.id},
+      ]} />
+
       <div className="flex flex-col bg-gray-200 text-center mb-12 rounded">
         <div className="py-4 border-white border-b-4 font-bold">
           <h1 className="text-2xl">{char.id}</h1>
