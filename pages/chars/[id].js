@@ -6,6 +6,7 @@ import jaconv from 'jaconv'
 import { firebase } from '../../lib/firebase.js'
 import ListItem from '../../components/listItem.js'
 import Breadcrumb from '../../components/breadcrumb.js'
+import History from '../../components/history.js'
 
 export default function Index({char, words, homonyms}) {
   const router = useRouter();
@@ -58,95 +59,8 @@ export default function Index({char, words, homonyms}) {
       </div>
 
       <div className="my-12">
-        <h3 className="text-lg font-bold mb-4">▼ 発音差異の歴史的経緯</h3>
-        <div className="text-center border-gray-200 border-2">
-          <div className="flex flex-row">
-            <div className="py-2 flex-1 bg-gray-200">
-              <span className="text-lg font-bold">人</span>
-            </div>
-          </div>
-
-          { false &&
-            <div className="flex flex-row border-b">
-              <div className="flex-1 border-gray-200 border-r relative">
-                <div className="">
-                  <span className="">🇰🇷</span>
-                </div>
-              </div>
-              <div className="flex-1 border-gray-200 border-l relative">
-                <div className="">
-                  <span className="">🇯🇵</span>
-                </div>
-              </div>
-            </div>
-          }
-
-          <div className="flex flex-row border-b border-dashed" style={{minHeight: 50}}>
-            <div className="flex flex-row flex-1 border-gray-200 border-r relative">
-              <div className="flex-1 border-gray-400 border-r-2 relative">
-                <span className="absolute left-0 text-gray-600 text-xs">受入</span>
-              </div>
-              <div className="flex-1"></div>
-            </div>
-            <div className="flex flex-row flex-1 border-gray-200 border-l relative">
-              <div className="flex-1 border-gray-400 border-r-2"></div>
-              <div className="flex-1"></div>
-            </div>
-          </div>
-
-          <div className="flex flex-row border-b border-dashed" style={{minHeight: 50}}>
-            <div className="flex flex-row flex-1 border-gray-200 border-r relative">
-              <div className="flex-1 border-gray-400 border-r-2 relative">
-                <span className="absolute left-0 text-gray-600 text-xs">変化</span>
-              </div>
-              <div className="flex-1"></div>
-            </div>
-            <div className="flex flex-row flex-1 border-gray-200 border-l relative">
-              <div className="flex-1 border-gray-400 border-r-2"></div>
-              <div className="flex-1"></div>
-            </div>
-          </div>
-
-          <div className="flex flex-row" style={{minHeight: 50}}>
-            <div className="flex flex-row flex-1 border-gray-200 border-r relative">
-              <div className="flex-1 border-gray-400 border-r-2 relative">
-                <span className="absolute left-0 text-gray-600 text-xs">規則</span>
-                <span className="text-gray-400 absolute bottom-0 right-0" style={{right: "-.4em", bottom: "-.5em"}}>▼</span>
-              </div>
-              <div className="flex-1"></div>
-            </div>
-            <div className="flex flex-row flex-1 border-gray-200 border-l relative">
-              <div className="flex-1 border-gray-400 border-r-2 relative">
-                <span className="text-gray-400 absolute bottom-0 right-0" style={{right: "-.5em", bottom: "-.5em"}}>▼</span>
-              </div>
-              <div className="flex-1"></div>
-            </div>
-          </div>
-
-          <div className="flex flex-row bg-gray-200">
-            <div className="py-2 flex-1 border-white border-r relative">
-              <span className="absolute top-0 left-0 pl-1">🇰🇷</span>
-              <div className="text-xl inline">
-                <ruby className="table-cell">
-                  {char.hangul}
-                  <rt className="text-sm block">({kroman.parse(char.hangul)})</rt>
-                </ruby>
-              </div>
-            </div>
-            <div className="py-2 flex-1 border-white border-l relative">
-              <span className="absolute top-0 left-0 pl-1">🇯🇵</span>
-              { char.kana.map((kana) => (
-                <div key={kana.value} className="text-xl inline">
-                  <ruby className="table-cell">
-                    {kana.value}
-                    <rt className="text-sm block">({jaconv.toHebon(kana.value).toLowerCase()})</rt>
-                  </ruby>
-                </div>
-              )) }
-            </div>
-          </div>
-
-        </div>
+        <h3 className="text-lg font-bold mb-4">▼ 発音の歴史的変化</h3>
+        <History char={char} />
       </div>
 
       <div className="my-12">

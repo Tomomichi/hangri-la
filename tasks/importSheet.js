@@ -16,7 +16,7 @@ const batch = admin.firestore().batch();
 fs.createReadStream(`./tmp/${target}.csv`)
   .pipe(parse({columns: true}))
   .on('data', (row) => {
-    if(row.imported == 'true') { return; }
+    if(row.skip == 'true') { return; }
 
     const params = (target == 'chars') ?
       {

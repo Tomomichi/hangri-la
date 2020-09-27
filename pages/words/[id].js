@@ -5,6 +5,7 @@ import jaconv from 'jaconv'
 import { firebase } from '../../lib/firebase.js'
 import ListItem from '../../components/listItem.js'
 import Breadcrumb from '../../components/breadcrumb.js'
+import History from '../../components/history.js'
 
 
 export default function Index({word, chars, homonyms}) {
@@ -55,6 +56,15 @@ export default function Index({word, chars, homonyms}) {
             </p>
           </div>
         </div>
+      </div>
+
+      <div className="my-12">
+        <h3 className="text-lg font-bold mb-4">▼ 発音の歴史的変化</h3>
+        { chars.map(char => (
+          <div className="mb-8">
+            <History key={char.id} char={char} />
+          </div>
+        )) }
       </div>
 
       <div className="my-12">
