@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import Head from 'next/head';
 import Link from 'next/link'
 import kroman from 'kroman'
 import jaconv from 'jaconv'
@@ -22,6 +23,11 @@ export default function Index({char, words, homonyms}) {
         {text: '漢字', href: '/chars', as: '/chars'},
         {text: char.id},
       ]} />
+
+      <Head>
+        <title>{char.id}({char.hangul}) | Hangri-La</title>
+        <meta name="description" content={`漢字「${char.id}（${char.kana[0]["value"]}）」は、韓国語（ハングル）で「${char.hangul}」となります。`} />
+      </Head>
 
       <div className="flex flex-col bg-gray-200 text-center mb-12 rounded">
         <div className="py-4 border-white border-b-4 font-bold">

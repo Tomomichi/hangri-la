@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { firebase } from '../../lib/firebase.js'
 import ListItem from '../../components/listItem.js'
 import Breadcrumb from '../../components/breadcrumb.js'
@@ -8,6 +9,11 @@ export default function Index({hanguls}) {
       <Breadcrumb items={[
         {text: 'ハングル'},
       ]} />
+
+      <Head>
+        <title>韓国語のハングルに対応する漢字一覧 | Hangri-La</title>
+        <meta name="description" content="韓国語のハングルに対応する漢字の一覧です。" />
+      </Head>
 
       <div>
         <h3 className="text-lg font-bold mb-4">▼ ハングル一覧</h3>

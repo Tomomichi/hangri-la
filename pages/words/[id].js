@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import Head from 'next/head';
 import kroman from 'kroman'
 import jaconv from 'jaconv'
 import { firebase } from '../../lib/firebase.js'
@@ -22,6 +23,11 @@ export default function Index({word, chars, homonyms}) {
         {text: '熟語', href: '/words', as: '/words'},
         {text: word.id},
       ]} />
+
+      <Head>
+        <title>{word.id}({word.hangul}) | Hangri-La</title>
+        <meta name="description" content={`漢字語「${word.id}（${word.kana}）」は、韓国語（ハングル）で「${word.hangul}」となります。`} />
+      </Head>
 
       <div className="flex flex-col bg-gray-200 text-center mb-12 rounded">
         <div className="py-4 border-white border-b-4 font-bold">

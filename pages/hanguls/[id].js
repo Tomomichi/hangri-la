@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import Head from 'next/head';
 import kroman from 'kroman'
 import { firebase } from '../../lib/firebase.js'
 import ListItem from '../../components/listItem.js'
@@ -20,6 +21,11 @@ export default function Index({hangul, chars}) {
         {text: 'ハングル', href: '/hanguls', as: '/hanguls'},
         {text: hangul},
       ]} />
+
+      <Head>
+        <title>{hangul}に対応する漢字 | Hangri-La</title>
+        <meta name="description" content={`韓国語のハングル「${hangul}」に対応する漢字一覧です。`} />
+      </Head>
 
       <div className="flex flex-col bg-gray-200 text-center mb-12 rounded">
         <div className="py-4">
