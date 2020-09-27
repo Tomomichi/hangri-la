@@ -4046,6 +4046,11 @@ isomorphic-fetch@2.2.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
+jaconv@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/jaconv/-/jaconv-1.0.4.tgz#0cffeeea50c14651b66eb6cfe38705b0cbb2c1df"
+  integrity sha512-7cB2JN+sMAf5zpdeclDh1Rzqi5E/9fX348GsRg83HrusRvBFDqsRKH+czME55glrW3nBcBYrOzl9OCp7r39psg==
+
 jest-worker@24.9.0:
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-24.9.0.tgz#5dbfdb5b2d322e98567898238a9697bcce67b3e5"
@@ -4193,6 +4198,11 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
+
+kroman@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/kroman/-/kroman-1.0.1.tgz#636e53c688e097e30a9f2c72ce28ccfc8efe0758"
+  integrity sha1-Y25Txojgl+MKnyxyzijM/I7+B1g=
 
 leven@^3.1.0:
   version "3.1.0"

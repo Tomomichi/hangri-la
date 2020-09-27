@@ -9,7 +9,7 @@ const App = ({ Component, pageProps }) => {
         <title>Hangri-La</title>
       </Head>
       <div className="max-w-screen-lg mx-auto px-2 lg:px-0">
-        <header className="text-gray-700 body-font">
+        <header className="text-gray-700 body-font mb-8">
           <div className="py-5">
             <Link href="/">
               <a className="title-font text-gray-900">

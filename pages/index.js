@@ -50,12 +50,12 @@ export default function Index({chars, words}) {
 
 
 export async function getStaticProps(context) {
-  const charsSnapshot = await firebase.firestore().collection('chars').limit(10).get();
+  const charsSnapshot = await firebase.firestore().collection('chars').limit(5).get();
   const chars = charsSnapshot.docs.map(doc =>
     Object.assign(doc.data(), {id: doc.id})
   );
 
-  const wordsSnapshot = await firebase.firestore().collection('words').limit(10).get();
+  const wordsSnapshot = await firebase.firestore().collection('words').limit(5).get();
   const words = wordsSnapshot.docs.map(doc =>
     Object.assign(doc.data(), {id: doc.id})
   );

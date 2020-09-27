@@ -1,8 +1,19 @@
+import { useRouter } from 'next/router'
+import kroman from 'kroman'
 import { firebase } from '../../lib/firebase.js'
 import ListItem from '../../components/listItem.js'
 import Breadcrumb from '../../components/breadcrumb.js'
 
 export default function Index({hangul, chars}) {
+  const router = useRouter();
+  if (router.isFallback) {
+    return(
+      <div className="mt-16 text-center">
+        <div>Loading...</div>
+      </div>
+    )
+  }
+
   return (
     <>
       <Breadcrumb items={[
@@ -11,8 +22,13 @@ export default function Index({hangul, chars}) {
       ]} />
 
       <div className="flex flex-col bg-gray-200 text-center mb-12 rounded">
-        <div className="py-4 font-bold">
-          <h1 className="text-2xl">{hangul}</h1>
+        <div className="py-4">
+          <h1 className="text-2xl inline">
+            <ruby className="table-cell">
+              <span className="font-bold">{hangul}</span>
+              <rt className="text-sm block">({kroman.parse(hangul)})</rt>
+            </ruby>
+          </h1>
         </div>
       </div>
 
@@ -30,15 +46,16 @@ export default function Index({hangul, chars}) {
 
 
 export async function getStaticPaths() {
-  const snapshot = await firebase.firestore().collection('chars').get();
-  const hanguls = await [...new Set(snapshot.docs.map(doc => doc.data().hangul))];  //重複削除
-  const paths = hanguls.map(h => {
-    return { params: {id: h} }
-  });
+  // const snapshot = await firebase.firestore().collection('chars').get();
+  // const hanguls = await [...new Set(snapshot.docs.map(doc => doc.data().hangul))];  //重複削除
+  // const paths = hanguls.map(h => {
+  //   return { params: {id: h} }
+  // });
+  const paths = [];
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   }
 }
 

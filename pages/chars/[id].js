@@ -1,9 +1,21 @@
-import { firebase } from '../../lib/firebase.js'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
+import kroman from 'kroman'
+import jaconv from 'jaconv'
+import { firebase } from '../../lib/firebase.js'
 import ListItem from '../../components/listItem.js'
 import Breadcrumb from '../../components/breadcrumb.js'
 
 export default function Index({char, words, homonyms}) {
+  const router = useRouter();
+  if (router.isFallback) {
+    return(
+      <div className="mt-16 text-center">
+        <div>Loading...</div>
+      </div>
+    )
+  }
+
   return (
     <>
       <Breadcrumb items={[
@@ -16,12 +28,24 @@ export default function Index({char, words, homonyms}) {
           <h1 className="text-2xl">{char.id}</h1>
         </div>
         <div className="flex flex-row">
-          <div className="py-4 flex-1 border-white border-r-2">
-            <div className="text-2xl">{char.hangul}</div>
+          <div className="py-4 flex-1 border-white border-r-2 relative">
+            <span className="absolute top-0 left-0 pl-1">🇰🇷</span>
+            <div className="text-2xl inline">
+              <ruby className="table-cell">
+                {char.hangul}
+                <rt className="text-sm block">({kroman.parse(char.hangul)})</rt>
+              </ruby>
+            </div>
           </div>
-          <div className="py-4 flex-1 border-white border-l-2">
+          <div className="py-4 flex-1 border-white border-l-2 relative">
+            <span className="absolute top-0 left-0 pl-1">🇯🇵</span>
             { char.kana.map((kana) => (
-              <div key={kana.value} className="text-2xl">{kana.value}</div>
+              <div key={kana.value} className="text-2xl inline">
+                <ruby className="table-cell">
+                  {kana.value}
+                  <rt className="text-sm block">({jaconv.toHebon(kana.value).toLowerCase()})</rt>
+                </ruby>
+              </div>
             )) }
           </div>
         </div>
@@ -82,14 +106,15 @@ export default function Index({char, words, homonyms}) {
 
 
 export async function getStaticPaths() {
-  const snapshot = await firebase.firestore().collection('chars').get();
-  const paths = await snapshot.docs.map(doc => {
-    return {params: {id: doc.id}}
-  });
+  // const snapshot = await firebase.firestore().collection('chars').get();
+  // const paths = await snapshot.docs.map(doc => {
+  //   return {params: {id: doc.id}}
+  // });
+  const paths = [];
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   }
 }
 

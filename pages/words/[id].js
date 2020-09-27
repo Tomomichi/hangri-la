@@ -1,8 +1,21 @@
+import { useRouter } from 'next/router'
+import kroman from 'kroman'
+import jaconv from 'jaconv'
 import { firebase } from '../../lib/firebase.js'
 import ListItem from '../../components/listItem.js'
 import Breadcrumb from '../../components/breadcrumb.js'
 
+
 export default function Index({word, chars, homonyms}) {
+  const router = useRouter();
+  if (router.isFallback) {
+    return(
+      <div className="mt-16 text-center">
+        <div>Loading...</div>
+      </div>
+    )
+  }
+
   return (
     <>
       <Breadcrumb items={[
@@ -15,25 +28,31 @@ export default function Index({word, chars, homonyms}) {
           <p className="text-2xl">{word.id}</p>
         </div>
         <div className="flex flex-row">
-          <div className="flex-1 py-4 border-white border-r-2">
-            <p className="text-2xl">
-              { chars.map(char => (
-                <span key={char.id}>{char.hangul}</span>
-              )) }
+          <div className="flex-1 py-4 border-white border-r-2 relative">
+            <span className="absolute top-0 left-0 pl-1">🇰🇷</span>
+            <p className="text-2xl inline">
+              <ruby className="table-cell">
+                { word.hangul }
+                <rt className="text-sm block">({kroman.parse(word.hangul)})</rt>
+              </ruby>
             </p>
           </div>
-          <div className="flex-1 py-4 border-white border-l-2">
-            <p className="text-2xl">
-              { chars.map(char => (
-                <span key={char.id}>{char.kana[0]["value"]}</span>
-              )) }
+          <div className="flex-1 py-4 border-white border-l-2 relative">
+            <span className="absolute top-0 left-0 pl-1">🇯🇵</span>
+            <p className="text-2xl inline">
+              <ruby className="table-cell">
+                { word.kana || "-" }
+                { word.kana &&
+                  <rt className="text-sm block">({jaconv.toHebon(word.kana).toLowerCase()})</rt>
+                }
+              </ruby>
             </p>
           </div>
         </div>
       </div>
 
       <div className="my-12">
-        <h3 className="text-lg font-bold mb-4">▼ 「{word.id}」に含まれる漢字</h3>
+        <h3 className="text-lg font-middle mb-4">▼ 「{word.id}」に含まれる漢字</h3>
         <ul className="border-t-2">
           { chars.map(char => (
             <ListItem key={char.id} href="/chars/[id]" as={`/chars/${char.id}`} content={char.id} />
@@ -57,14 +76,15 @@ export default function Index({word, chars, homonyms}) {
 
 
 export async function getStaticPaths() {
-  const snapshot = await firebase.firestore().collection('words').get();
-  const paths = await snapshot.docs.map(doc => {
-    return {params: {id: doc.id}}
-  });
+  // const snapshot = await firebase.firestore().collection('words').get();
+  // const paths = await snapshot.docs.map(doc => {
+  //   return {params: {id: doc.id}}
+  // });
+  const paths = [];
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   }
 }
 
