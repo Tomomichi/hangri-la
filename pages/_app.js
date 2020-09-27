@@ -32,6 +32,7 @@ const App = ({ Component, pageProps }) => {
               <small>（ハングリラ）</small>
             </a>
           </Link>
+          <small className="text-xs text-red-600 border border-red-600 rounded px-1 py-1">BETA</small>
           <div className="text-xs text-gray-700 pl-3 hidden sm:inline">漢字で効率的に韓国語を学べるサイト</div>
         </div>
       </header>
