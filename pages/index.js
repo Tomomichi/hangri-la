@@ -5,7 +5,7 @@ import ListItem from '../components/listItem.js'
 export default function Index({chars, words}) {
   return (
     <div>
-      <div className="flex flex-col sm:flex-row items-center bg-gray-100 rounded mb-12 px-2 sm:px-10 py-4">
+      <div className="flex flex-col sm:flex-row items-center bg-gray-100 rounded-none sm:rounded mb-8 px-2 sm:px-10 py-12 sm:py-4 -mx-2 sm:mx-auto -mt-4 sm:mt-0">
         <div className="w-full sm:w-3/5 order-last sm:order-first">
           <p className="text-lg font-bold pb-2">
             韓国語を<span className="text-red-600">漢字</span>で効率的に学ぼう！
@@ -30,22 +30,25 @@ export default function Index({chars, words}) {
       </div>
 
       <div className="mb-12">
-        <h3 className="text-lg font-bold mb-4">▼ 特集</h3>
         <div className="flex flex-col sm:flex-row">
-          <div className="flex-1 flex flex-row items-center bg-gray-100 border border-gray-500 rounded p-4 mr-2">
-            <div className="text-4xl mr-1">💡</div>
-            <div className="flex-1">
-              <small className="text-sm">覚えたらすぐ使える！</small>
-              <span className="font-bold block">日本語とほぼ発音が同じ漢字語</span>
-            </div>
-          </div>
-          <div className="flex-1 flex flex-row items-center bg-gray-100 border border-gray-500 rounded p-4 mr-2">
-            <div className="text-4xl mr-1">🧑‍🎓</div>
-            <div className="flex-1">
-              <small className="text-sm">見たことなくても覚えやすい</small>
-              <span className="font-bold block">何となく意味がわかる漢字語</span>
-            </div>
-          </div>
+          <Link href="/">
+            <a className="flex-1 flex items-center bg-gray-100 border rounded p-4 mr-0 sm:mr-2 mb-4 sm:mb-0 hover:opacity-75">
+              <div className="text-4xl mr-2">💡</div>
+              <div className="flex-1">
+                <small className="text-sm">覚えたらすぐ使える！</small>
+                <span className="font-bold block">日本語とほぼ同じ発音の漢字語</span>
+              </div>
+            </a>
+          </Link>
+          <Link href="/">
+            <a className="flex-1 flex items-center bg-gray-100 border rounded p-4 hover:opacity-75">
+              <div className="text-4xl mr-2">🧑‍🎓</div>
+              <div className="flex-1">
+                <small className="text-sm">日本語にはないけど</small>
+                <span className="font-bold block">何となく意味がわかる漢字語</span>
+              </div>
+            </a>
+          </Link>
         </div>
 
         <p className="flex items-center justify-end text-gray-700 text-sm mt-4">

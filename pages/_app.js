@@ -29,7 +29,7 @@ const App = ({ Component, pageProps }) => {
         <div className="max-w-screen-lg mx-auto px-2 lg:px-0 py-3">
           <Link href="/">
             <a className="title-font text-gray-900">
-              <span className="text-lg">Hangri-La</span>
+              <span className="text-lg font-bold">Hangri-La</span>
               <small>（ハングリラ）</small>
             </a>
           </Link>
@@ -40,7 +40,7 @@ const App = ({ Component, pageProps }) => {
 
       <div className="max-w-screen-lg mx-auto px-2 lg:px-0 text-gray-700">
         <div className="flex flex-col md:flex-row">
-          <div className="max-w-screen-sm w-full md:w-2/3 mx-auto md:mr-24">
+          <div className="max-w-screen-sm w-full md:w-2/3 mx-auto md:mr-24 mb-12">
             <Component {...pageProps} />
           </div>
           <div className="w-full md:w-1/3">

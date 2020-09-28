@@ -32,7 +32,7 @@ export default function History({char}){
           <div className="absolute w-full text-gray-600 text-xs">受入</div>
           <div className="py-4 flex-1 border-gray-200 border-r relative">
             { filteredHistory(char.histories, 'ko', 'acceptances').map(history => (
-              <div className="py-2">
+              <div key={history.title} className="py-2">
                 <Link href="">
                   <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
                     {history.title}
@@ -43,7 +43,7 @@ export default function History({char}){
           </div>
           <div className="py-4 flex-1 border-gray-200 border-l">
             { filteredHistory(char.histories, 'ja', 'acceptances').map(history => (
-              <div className="py-2">
+              <div key={history.title} className="py-2">
                 <Link href="">
                   <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
                     {history.title}
@@ -58,7 +58,7 @@ export default function History({char}){
           <div className="absolute w-full text-gray-600 text-xs">変化</div>
           <div className="py-4 flex-1 border-gray-200 border-r relative">
             { filteredHistory(char.histories, 'ko', 'changes').map(history => (
-              <div className="py-2">
+              <div key={history.title} className="py-2">
                 <Link href="">
                   <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
                     {history.title}
@@ -69,7 +69,7 @@ export default function History({char}){
           </div>
           <div className="py-4 flex-1 border-gray-200 border-l">
             { filteredHistory(char.histories, 'ja', 'changes').map(history => (
-              <div className="py-2">
+              <div key={history.title} className="py-2">
                 <Link href="">
                   <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
                     {history.title}
@@ -84,7 +84,7 @@ export default function History({char}){
           <div className="absolute w-full text-gray-600 text-xs">規則</div>
           <div className="py-4 flex-1 border-gray-200 border-r relative">
             { filteredHistory(char.histories, 'ko', 'rules').map(history => (
-              <div className="py-2">
+              <div key={history.title} className="py-2">
                 <Link href="">
                   <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
                     {history.title}
@@ -95,7 +95,7 @@ export default function History({char}){
           </div>
           <div className="py-4 flex-1 border-gray-200 border-l">
             { filteredHistory(char.histories, 'ja', 'rules').map(history => (
-              <div className="py-2">
+              <div key={history.title} className="py-2">
                 <Link href="">
                   <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
                     {history.title}
