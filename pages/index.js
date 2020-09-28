@@ -29,6 +29,35 @@ export default function Index({chars, words}) {
         </div>
       </div>
 
+      <div className="mb-12">
+        <h3 className="text-lg font-bold mb-4">▼ 特集</h3>
+        <div className="flex flex-col sm:flex-row">
+          <div className="flex-1 flex flex-row items-center bg-gray-100 border border-gray-500 rounded p-4 mr-2">
+            <div className="text-4xl mr-1">💡</div>
+            <div className="flex-1">
+              <small className="text-sm">覚えたらすぐ使える！</small>
+              <span className="font-bold block">日本語とほぼ発音が同じ漢字語</span>
+            </div>
+          </div>
+          <div className="flex-1 flex flex-row items-center bg-gray-100 border border-gray-500 rounded p-4 mr-2">
+            <div className="text-4xl mr-1">🧑‍🎓</div>
+            <div className="flex-1">
+              <small className="text-sm">見たことなくても覚えやすい</small>
+              <span className="font-bold block">何となく意味がわかる漢字語</span>
+            </div>
+          </div>
+        </div>
+
+        <p className="flex items-center justify-end text-gray-700 text-sm mt-4">
+          <svg className="fill-current text-gray-700 h-4 w-4 inline" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+          </svg>
+          <Link href="/chars">
+            <a className="border-b border-dashed border-gray-700 hover:opacity-75">すべての特集を見る</a>
+          </Link>
+        </p>
+      </div>
+
       <div className="flex flex-col sm:flex-row">
         <div className="mb-12 flex-1 mr-0 sm:mr-4">
           <h3 className="text-lg font-bold mb-4">▼ 漢字</h3>
