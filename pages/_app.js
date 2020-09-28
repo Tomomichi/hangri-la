@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link'
+import Sidebar from '../components/sidebar.js'
 import "../styles/tailwind.css";
 
 const App = ({ Component, pageProps }) => {
@@ -37,12 +38,13 @@ const App = ({ Component, pageProps }) => {
         </div>
       </header>
 
-      <div className="max-w-screen-lg mx-auto px-2 lg:px-0 text-gray-900">
+      <div className="max-w-screen-lg mx-auto px-2 lg:px-0 text-gray-700">
         <div className="flex flex-col md:flex-row">
           <div className="max-w-screen-sm w-full md:w-2/3 mx-auto md:mr-24">
             <Component {...pageProps} />
           </div>
-          <div className="w-full md:w-1/3 bg-gray-300">
+          <div className="w-full md:w-1/3">
+            <Sidebar />
           </div>
         </div>
       </div>

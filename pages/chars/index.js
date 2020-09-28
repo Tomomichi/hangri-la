@@ -6,14 +6,14 @@ import Breadcrumb from '../../components/breadcrumb.js'
 export default function Index({chars}) {
   return (
     <>
-      <Breadcrumb items={[
-        {text: '漢字'},
-      ]} />
-
       <Head>
         <title>韓国語の漢字一覧 | Hangri-La</title>
         <meta name="description" content="韓国語の漢字と対応するハングルの一覧です。" />
       </Head>
+
+      <Breadcrumb items={[
+        {text: '漢字'},
+      ]} />
 
       <div>
         <h3 className="text-lg font-bold mb-4">▼ 漢字一覧</h3>

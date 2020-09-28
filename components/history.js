@@ -23,7 +23,7 @@ export default function History({char}){
           <span className="absolute" style={{bottom: "-.5em", right: "-.4em"}}>▼</span>
         </div>
         { !char.histories &&
-          <div className="absolute w-full h-full flex items-center bg-black opacity-50 z-50 text-white">
+          <div className="absolute w-full h-full flex items-center bg-black opacity-25 z-50 text-white">
             <span className="flex-1">(まだデータがありません)</span>
           </div>
         }

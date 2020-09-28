@@ -21,7 +21,7 @@ export default function Index({word, chars, homonyms}) {
   return (
     <>
       <Breadcrumb items={[
-        {text: '熟語', href: '/words', as: '/words'},
+        {text: '漢字語', href: '/words', as: '/words'},
         {text: word.id},
       ]} />
 
