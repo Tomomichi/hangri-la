@@ -6,7 +6,7 @@ export default function Index({chars, words}) {
   return (
     <div>
       <div className="flex flex-col sm:flex-row items-center bg-gray-100 rounded-none sm:rounded mb-8 px-2 sm:px-10 py-12 sm:py-4 -mx-2 sm:mx-auto -mt-4 sm:mt-0">
-        <div className="w-full sm:w-3/5 order-last sm:order-first">
+        <div className="w-full sm:w-3/5">
           <p className="text-lg font-bold pb-2">
             韓国語を<span className="text-red-600">漢字</span>で効率的に学ぼう！
           </p>
@@ -24,7 +24,7 @@ export default function Index({chars, words}) {
             </Link>
           </p>
         </div>
-        <div className="w-full sm:w-2/5 px-12 sm:px-0 pb-8 sm:pb-0">
+        <div className="w-full sm:w-2/5 px-12 sm:px-0 pt-8 sm:pt-0">
           <img src="/images/b0610.png" />
         </div>
       </div>

@@ -61,8 +61,8 @@ export default function Index({word, chars, homonyms}) {
       <div className="my-12">
         <h3 className="text-lg font-bold mb-4">▼ 発音の歴史的変化</h3>
         { chars.map(char => (
-          <div className="mb-8">
-            <History key={char.id} char={char} />
+          <div key={char.id} className="mb-8">
+            <History char={char} />
           </div>
         )) }
       </div>
