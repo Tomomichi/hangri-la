@@ -34,7 +34,11 @@ export default function Index({chars}) {
 export async function getStaticProps({params}) {
   const snapshot = await firebase.firestore().collection('chars').limit(30).get();
   const chars = snapshot.docs.map(doc =>
-    Object.assign(doc.data(), {id: doc.id})
+    Object.assign(doc.data(), {
+      id: doc.id,
+      createdAt: doc.data().createdAt.toDate().toISOString(),
+      updatedAt: doc.data().updatedAt.toDate().toISOString(),
+    })
   );
 
   return {

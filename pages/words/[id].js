@@ -108,14 +108,22 @@ export async function getStaticPaths() {
 export async function getStaticProps({params}) {
   // word
   const wordDoc = await firebase.firestore().collection('words').doc(params.id).get();
-  const word = await Object.assign(wordDoc.data(), {id: wordDoc.id});
+  const word = await Object.assign(wordDoc.data(), {
+    id: wordDoc.id,
+    createdAt: wordDoc.data().createdAt.toDate().toISOString(),
+    updatedAt: wordDoc.data().updatedAt.toDate().toISOString(),
+  });
 
   // chars
   const charsSnapshot = await firebase.firestore().collection('chars').where(firebase.firestore.FieldPath.documentId(), "in", word.chars).get();
   let chars = [];
   charsSnapshot.forEach(doc => {
     const index = word.chars.findIndex(item => item == doc.id); // word.charsの並び順を保持
-    chars[index] = Object.assign(doc.data(), {id: doc.id});
+    chars[index] = Object.assign(doc.data(), {
+      id: doc.id,
+      createdAt: doc.data().createdAt.toDate().toISOString(),
+      updatedAt: doc.data().updatedAt.toDate().toISOString(),
+    });
   });
 
   // homonyms（同音異義語）
@@ -124,7 +132,11 @@ export async function getStaticProps({params}) {
                                 .where(firebase.firestore.FieldPath.documentId(), "!=", word.id)  // 自分自身を除外
                                 .get();
   const homonyms = homosSnapshot.docs.map(doc =>
-    Object.assign(doc.data(), {id: doc.id})
+    Object.assign(doc.data(), {
+      id: doc.id,
+      createdAt: doc.data().createdAt.toDate().toISOString(),
+      updatedAt: doc.data().updatedAt.toDate().toISOString(),
+    })
   );
 
   return {

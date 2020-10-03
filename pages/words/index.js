@@ -34,7 +34,11 @@ export default function Index({words}) {
 export async function getStaticProps({params}) {
   const snapshot = await firebase.firestore().collection('words').limit(30).get();
   const words = snapshot.docs.map(doc =>
-    Object.assign(doc.data(), {id: doc.id})
+    Object.assign(doc.data(), {
+      id: doc.id,
+      createdAt: doc.data().createdAt.toDate().toISOString(),
+      updatedAt: doc.data().updatedAt.toDate().toISOString(),
+    })
   );
 
   return {

@@ -89,7 +89,11 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({params}) {
   const doc = await firebase.firestore().collection('phonological_changes').doc(params.id).get();
-  const change = await Object.assign(doc.data(), {id: doc.id});
+  const change = await Object.assign(doc.data(), {
+    id: doc.id,
+    createdAt: doc.data().createdAt.toDate().toISOString(),
+    updatedAt: doc.data().updatedAt.toDate().toISOString(),
+  });
 
   return {
     props: {

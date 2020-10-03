@@ -27,7 +27,7 @@ export default function Index({char, words, homonyms}) {
 
       <Head>
         <title>{char.id}({char.hangul}) | Hangri-La</title>
-        <meta name="description" content={`漢字「${char.id}（${char.kana[0]["value"]}）」は、韓国語（ハングル）で「${char.hangul}」となります。`} />
+        <meta name="description" content={`漢字「${char.id}（${char.kana}）」は、韓国語（ハングル）で「${char.hangul}」となります。`} />
       </Head>
 
       <div className="flex flex-col bg-gray-200 text-center mb-12 rounded">
@@ -46,14 +46,12 @@ export default function Index({char, words, homonyms}) {
           </div>
           <div className="py-4 flex-1 border-white border-l-2 relative">
             <span className="absolute top-0 left-0 pl-1">🇯🇵</span>
-            { char.kana.map((kana) => (
-              <div key={kana.value} className="text-2xl inline">
-                <ruby className="table-cell">
-                  {kana.value}
-                  <rt className="text-sm block">({jaconv.toHebon(kana.value).toLowerCase()})</rt>
-                </ruby>
-              </div>
-            )) }
+            <div className="text-2xl inline">
+              <ruby className="table-cell">
+                {char.kana}
+                <rt className="text-sm block">({jaconv.toHebon(char.kana).toLowerCase()})</rt>
+              </ruby>
+            </div>
           </div>
         </div>
       </div>
@@ -134,12 +132,20 @@ export async function getStaticPaths() {
 export async function getStaticProps({params}) {
   // char
   const charDoc = await firebase.firestore().collection('chars').doc(params.id).get();
-  const char = await Object.assign(charDoc.data(), {id: charDoc.id});
+  const char = await Object.assign(charDoc.data(), {
+    id: charDoc.id,
+    createdAt: charDoc.data().createdAt.toDate().toISOString(),
+    updatedAt: charDoc.data().updatedAt.toDate().toISOString(),
+  });
 
   // words
   const wordsSnapshot = await firebase.firestore().collection('words').where('chars', 'array-contains', char.id).get();
   const words = await wordsSnapshot.docs.map(doc =>
-    Object.assign(doc.data(), {id: doc.id})
+    Object.assign(doc.data(), {
+      id: doc.id,
+      createdAt: doc.data().createdAt.toDate().toISOString(),
+      updatedAt: doc.data().updatedAt.toDate().toISOString(),
+    })
   );
 
   // homonyms（同音異義語）
@@ -148,7 +154,11 @@ export async function getStaticProps({params}) {
                                 .where(firebase.firestore.FieldPath.documentId(), "!=", char.id)  // 自分自身を除外
                                 .get();
   const homonyms = homosSnapshot.docs.map(doc =>
-    Object.assign(doc.data(), {id: doc.id})
+    Object.assign(doc.data(), {
+      id: doc.id,
+      createdAt: doc.data().createdAt.toDate().toISOString(),
+      updatedAt: doc.data().updatedAt.toDate().toISOString(),
+    })
   );
 
   return {

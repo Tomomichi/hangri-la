@@ -52,7 +52,7 @@ const importCharsChanges = () => {
     .on('data', (row) => {
       if(row.skip == 'true') { return; }
 
-      const params = Object.fromEntries(Object.entries(row).filter(([key, value]) => !['charId', 'changeId', 'skip'].includes(key) )); //除外カラムを指定
+      const params = Object.fromEntries(Object.entries(row).filter(([key, value]) => !['charId', 'skip'].includes(key) )); //除外カラムを指定
       results[row.charId] = results[row.charId] || [];
       results[row.charId].push(params);
     })
