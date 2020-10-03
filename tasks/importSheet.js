@@ -11,33 +11,69 @@ admin.initializeApp({
   databaseURL: "https://hangri-la.firebaseio.com"
 });
 
-const target = process.argv[2] == 'words' ? 'words' : 'chars';
+const target = process.argv[2];
 const batch = admin.firestore().batch();
-fs.createReadStream(`./tmp/${target}.csv`)
-  .pipe(parse({columns: true}))
-  .on('data', (row) => {
-    if(row.skip == 'true') { return; }
 
-    const params = (target == 'chars') ?
-      {
-        code: row.code,
-        hangul: row.hangul,
-        kana: [
-          { value: row.kana, default: true }
-        ],
-      } :
-      {
-        hangul: row.hangul,
-        kana: row.kana,
-        chars: row.id.split(''),
-      };
 
-    const ref = admin.firestore().collection(target).doc(row.id);
-    batch.set(ref, params);
-    console.log(`import: ${row.id}`)
-  })
-  .on('end', () => {
-    batch.commit().then(() => {
-      console.log("import finished!")
+const importSheet = () => {
+  fs.createReadStream(`./tmp/${target}.csv`)
+    .pipe(parse({columns: true}))
+    .on('data', (row) => {
+      if(row.skip == 'true') { return; }
+
+      const params = Object.fromEntries(Object.entries(row).filter(([key, value]) => !['id', 'skip', 'created'].includes(key) )); //除外カラムを指定
+      params['updatedAt'] = new Date();
+      if(target == 'words') {
+        params['chars'] = row.id.split('');
+      }
+      if(!row.created) {
+        params['createdAt'] = new Date();
+      }
+
+      const ref = admin.firestore().collection(target).doc(row.id);
+      if(row.created) {
+        batch.update(ref, params);
+      }else {
+        batch.set(ref, params);
+      }
+      console.log(`import: ${row.id}`)
+    })
+    .on('end', () => {
+      batch.commit().then(() => {
+        console.log("import finished!")
+      });
     });
-  });
+}
+
+const importCharsChanges = () => {
+  let results = {};
+  fs.createReadStream(`./tmp/${target}.csv`)
+    .pipe(parse({columns: true}))
+    .on('data', (row) => {
+      if(row.skip == 'true') { return; }
+
+      const params = Object.fromEntries(Object.entries(row).filter(([key, value]) => !['charId', 'changeId', 'skip'].includes(key) )); //除外カラムを指定
+      results[row.charId] = results[row.charId] || [];
+      results[row.charId].push(params);
+    })
+    .on('end', () => {
+      for (let charId in results) {
+        const ref = admin.firestore().collection("chars").doc(charId);
+        batch.update(ref, {
+          phonological_changes: results[charId],
+          updatedAt: new Date(),
+        });
+        console.log(`set data for ${charId}`);
+      }
+      batch.commit().then(() => {
+        console.log("import finished!")
+      });
+    });
+}
+
+
+if(target == 'chars_changes') {
+  importCharsChanges();
+}else {
+  importSheet();
+}
