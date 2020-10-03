@@ -16,11 +16,15 @@ export default function Index({change}) {
     )
   }
 
-  const country = () => {
-    return {
-      name: change.language == 'ja' ? '日本' : '韓国',
-      flag: change.language == 'ja' ? '🇯🇵' : '🇰🇷',
-    }
+  const country = {
+    ja: {
+      name: '日本',
+      flag: '🇯🇵',
+    },
+    ko: {
+      name: '韓国',
+      flag: '🇰🇷',
+    },
   }
 
   const DynamicComponent = dynamic(() => import(`../../../components/phonological_changes/ja/${change.id}.js`));
@@ -28,15 +32,15 @@ export default function Index({change}) {
     <>
       <Breadcrumb items={[
         {text: '発音変化', href: '/histories', as: '/histories'},
-        {text: country().name, href: `/histories/${change.language}`, as: `/histories/${change.language}`},
+        {text: country[change.language].name, href: `/histories/${change.language}`, as: `/histories/${change.language}`},
         {text: change.title},
       ]} />
 
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold mb-4 pb-2 border-b-2">
+      <div className="mb-8 pb-2 border-b-2">
+        <h1 className="text-2xl font-bold mb-2">
           {change.title}
         </h1>
-        <p className="text-sm text-gray-600 mb-4 bg-gray-100 rounded p-2">
+        <p className="text-sm text-gray-500 mb-1">
           {change.lead}
         </p>
       </div>
@@ -47,8 +51,8 @@ export default function Index({change}) {
             <tr className="rounded border-b">
               <th className="p-2 bg-gray-100 border-r w-1/3 sm:w-1/4">国</th>
               <td className="p-2">
-                <span className="mr-2">{country().flag}</span>
-                {country().name}
+                <span className="mr-2">{country[change.language].flag}</span>
+                {country[change.language].name}
               </td>
             </tr>
             <tr className="rounded border-b">

@@ -88,8 +88,7 @@ export default function Change() {
         <h3 className="text-lg font-bold mb-4">▼ このパターンに該当する漢字の例</h3>
         <div>
           <ul className="border-t-2">
-            <ListItem href="/chars/[id]" as={`/chars/明`} content="明" />
-            <ListItem href="/chars/[id]" as={`/chars/明`} content="命" />
+            <ListItem href="/chars/[id]" as={`/chars/命`} content="命" />
           </ul>
         </div>
       </div>

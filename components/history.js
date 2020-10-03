@@ -8,6 +8,12 @@ const filteredHistory = (histories, language, group) => {
   return histories.filter(h => h.language == language && h.group == group);
 }
 
+const groupName = {
+  'acceptances': '受入',
+  'changes': '変化',
+  'rules': '規則',
+}
+
 export default function History({char}){
   return (
     <div className="text-center border-gray-200 border-2 rounded">
@@ -28,83 +34,33 @@ export default function History({char}){
           </div>
         }
 
-        <div className="flex flex-row border-b border-dashed relative" style={{minHeight: 50}}>
-          <div className="absolute w-full text-gray-600 text-xs">受入</div>
-          <div className="py-4 flex-1 border-gray-200 border-r relative">
-            { filteredHistory(char.histories, 'ko', 'acceptances').map(history => (
-              <div key={history.title} className="py-2">
-                <Link href={`/phonological_changes/${history.language}/[id]`} as={`/phonological_changes/${history.language}/${history.id}`}>
-                  <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
-                    {history.title}
-                  </a>
-                </Link>
-              </div>
-            ))}
+        { Object.keys(groupName).map(group => (
+          <div className={`flex flex-row relative ${group=='rules' ? '' : 'border-b border-dashed'}`} style={{minHeight: 50}}>
+            <div className="absolute w-full text-gray-600 text-xs">{groupName[group]}</div>
+            <div className="py-4 flex-1 border-gray-200 border-r relative">
+              { filteredHistory(char.histories, 'ko', group).map(history => (
+                <div key={history.title} className="py-2">
+                  <Link href={`/phonological_changes/${history.language}/[id]`} as={`/phonological_changes/${history.language}/${history.id}`}>
+                    <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
+                      {history.title}
+                    </a>
+                  </Link>
+                </div>
+              ))}
+            </div>
+            <div className="py-4 flex-1 border-gray-200 border-l">
+              { filteredHistory(char.histories, 'ja', group).map(history => (
+                <div key={history.title} className="py-2">
+                  <Link href={`/phonological_changes/${history.language}/[id]`} as={`/phonological_changes/${history.language}/${history.id}`}>
+                    <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
+                      {history.title}
+                    </a>
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="py-4 flex-1 border-gray-200 border-l">
-            { filteredHistory(char.histories, 'ja', 'acceptances').map(history => (
-              <div key={history.title} className="py-2">
-                <Link href={`/phonological_changes/${history.language}/[id]`} as={`/phonological_changes/${history.language}/${history.id}`}>
-                  <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
-                    {history.title}
-                  </a>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex flex-row border-b border-dashed relative" style={{minHeight: 50}}>
-          <div className="absolute w-full text-gray-600 text-xs">変化</div>
-          <div className="py-4 flex-1 border-gray-200 border-r relative">
-            { filteredHistory(char.histories, 'ko', 'changes').map(history => (
-              <div key={history.title} className="py-2">
-                <Link href={`/phonological_changes/${history.language}/[id]`} as={`/phonological_changes/${history.language}/${history.id}`}>
-                  <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
-                    {history.title}
-                  </a>
-                </Link>
-              </div>
-            ))}
-          </div>
-          <div className="py-4 flex-1 border-gray-200 border-l">
-            { filteredHistory(char.histories, 'ja', 'changes').map(history => (
-              <div key={history.title} className="py-2">
-                <Link href={`/phonological_changes/${history.language}/[id]`} as={`/phonological_changes/${history.language}/${history.id}`}>
-                  <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
-                    {history.title}
-                  </a>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex flex-row relative" style={{minHeight: 50}}>
-          <div className="absolute w-full text-gray-600 text-xs">規則</div>
-          <div className="py-4 flex-1 border-gray-200 border-r relative">
-            { filteredHistory(char.histories, 'ko', 'rules').map(history => (
-              <div key={history.title} className="py-2">
-                <Link href={`/phonological_changes/${history.language}/[id]`} as={`/phonological_changes/${history.language}/${history.id}`}>
-                  <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
-                    {history.title}
-                  </a>
-                </Link>
-              </div>
-            ))}
-          </div>
-          <div className="py-4 flex-1 border-gray-200 border-l">
-            { filteredHistory(char.histories, 'ja', 'rules').map(history => (
-              <div key={history.title} className="py-2">
-                <Link href={`/phonological_changes/${history.language}/[id]`} as={`/phonological_changes/${history.language}/${history.id}`}>
-                  <a className="block bg-white border-gray-600 border rounded px-2 py-1 mx-1 sm:mx-6 hover:border-gray-500 hover:bg-gray-100">
-                    {history.title}
-                  </a>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
+        )) }
       </div>
 
       <div className="flex flex-row bg-gray-200">
