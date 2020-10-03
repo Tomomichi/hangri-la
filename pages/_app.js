@@ -10,7 +10,7 @@ const App = ({ Component, pageProps }) => {
         <title>Hangri-La(ハングリラ) - 韓国語を漢字で効率的に学べるサイト</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
         <meta name="keywords" content="韓国語,漢字,漢字語,ハングル,日本語,音韻,読み方,発音,違い,単語,学習,効率的" />
         <meta property="og:type" content="website" />
         <meta name="description" content="Hangri-La(ハングリラ)は、漢字を活用して韓国語を効率的に学べるように設計された韓国語学習サービスです。" />
