@@ -63,7 +63,7 @@ export default function Index({char, words, homonyms}) {
 
       <div className="my-12">
         <h3 className="text-lg font-bold mb-4">▼ 「{char.id}」が含まれる熟語</h3>
-        <ul className="border-t-2">
+        <ul className="border-t border-b divide-y">
           { words.map(word => (
             <ListItem key={word.id} href="/words/[id]" as={`/words/${word.id}`} content={word.id} />
           )) }
@@ -76,7 +76,7 @@ export default function Index({char, words, homonyms}) {
       { char.conjugations &&
         <div className="my-12">
           <h3 className="text-lg font-bold mb-4">▼ 「{char.id}」の活用</h3>
-          <ul className="border-t-2">
+          <ul className="border-t border-b divide-y">
             { char.conjugations.map(conj => (
               <ListItem key={conj.value} content={`
                 <span>${char.hangul}(${char.id})</span>
@@ -91,7 +91,7 @@ export default function Index({char, words, homonyms}) {
       { homonyms.length > 0 &&
         <div className="my-12">
           <h3 className="text-lg font-bold mb-4">▼ 「{char.id}」と同じハングルの漢字</h3>
-          <ul className="border-t-2">
+          <ul className="border-t border-b divide-y">
             { homonyms.map(homo => (
               <ListItem key={homo.id} content={`
                 ${homo.id}

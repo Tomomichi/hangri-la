@@ -40,7 +40,7 @@ export default function Index({hangul, chars}) {
 
       <div className="my-12">
         <h3 className="text-lg font-bold mb-4">▼ 「{hangul}」と読む漢字</h3>
-        <ul className="border-t-2">
+        <ul className="border-t border-b divide-y">
           { chars.map(char => (
             <ListItem key={char.id} href="/chars/[id]" as={`/chars/${char.id}`} content={char.id} />
           )) }

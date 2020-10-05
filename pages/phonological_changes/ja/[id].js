@@ -5,7 +5,6 @@ import ReactMarkdown from 'react-markdown'
 import { firebase } from '../../../lib/firebase.js'
 import { renderers } from '../../../lib/markdown.js'
 import Breadcrumb from '../../../components/breadcrumb.js'
-import ListItem from '../../../components/listItem.js'
 
 
 export default function Index({change, content}) {

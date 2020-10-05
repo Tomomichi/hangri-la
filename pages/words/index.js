@@ -17,7 +17,7 @@ export default function Index({words}) {
 
       <div>
         <h3 className="text-lg font-bold mb-4">▼ 漢字語一覧</h3>
-        <ul className="border-t-2">
+        <ul className="border-t border-b divide-y">
           { words.map(word => (
             <ListItem key={word.id} href="/words/[id]" as={`/words/${word.id}`} content={`
               ${word.id}

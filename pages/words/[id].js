@@ -69,7 +69,7 @@ export default function Index({word, chars, homonyms}) {
 
       <div className="my-12">
         <h3 className="text-lg font-middle mb-4">▼ 「{word.id}」に含まれる漢字</h3>
-        <ul className="border-t-2">
+        <ul className="border-t border-b divide-y">
           { chars.map(char => (
             <ListItem key={char.id} href="/chars/[id]" as={`/chars/${char.id}`} content={char.id} />
           )) }
@@ -79,7 +79,7 @@ export default function Index({word, chars, homonyms}) {
       { homonyms.length > 0 &&
         <div className="my-12">
           <h3 className="text-lg font-bold mb-4">▼ 「{word.id}」とハングルが同じ熟語</h3>
-          <ul className="border-t-2">
+          <ul className="border-t border-b divide-y">
             { homonyms.map(homonym => (
               <ListItem key={homonym.id} href="/words/[id]" as={`/words/${homonym.id}`} content={homonym.id} />
             )) }

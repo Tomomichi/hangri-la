@@ -35,7 +35,7 @@ export default function History({char}){
         }
 
         { Object.keys(groupName).map(group => (
-          <div className={`flex flex-row relative ${group=='rules' ? '' : 'border-b border-dashed'}`} style={{minHeight: 50}}>
+          <div key={group} className={`flex flex-row relative ${group=='rules' ? '' : 'border-b border-dashed'}`} style={{minHeight: 50}}>
             <div className="absolute w-full text-gray-600 text-xs">{groupName[group]}</div>
             <div className="py-4 flex-1 border-gray-200 border-r relative">
               { filteredHistory(char.phonological_changes, 'ko', group).map(history => (

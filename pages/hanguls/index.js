@@ -17,7 +17,7 @@ export default function Index({hanguls}) {
 
       <div>
         <h3 className="text-lg font-bold mb-4">▼ ハングル一覧</h3>
-        <ul className="border-t-2">
+        <ul className="border-t border-b divide-y">
           { hanguls.map(hangul => (
             <ListItem key={hangul} href="/hanguls/[id]" as={`/hanguls/${hangul}`} content={hangul} />
           )) }

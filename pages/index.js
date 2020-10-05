@@ -64,7 +64,7 @@ export default function Index({chars, words}) {
       <div className="flex flex-col sm:flex-row">
         <div className="mb-12 flex-1 mr-0 sm:mr-4">
           <h3 className="text-lg font-bold mb-4">▼ 漢字</h3>
-          <ul className="border-t-2">
+          <ul className="border-t border-b divide-y">
             { chars.map(char => (
               <ListItem key={char.id} href="/chars/[id]" as={`/chars/${char.id}`} content={`
                 ${char.id}
@@ -84,7 +84,7 @@ export default function Index({chars, words}) {
 
         <div className="mb-12 flex-1 ml-0 sm:ml-4">
           <h3 className="text-lg font-bold mb-4">▼ 漢字語</h3>
-          <ul className="border-t-2">
+          <ul className="border-t border-b divide-y">
             { words.map(word => (
               <ListItem key={word.id} href="/words/[id]" as={`/words/${word.id}`} content={`
                 ${word.id}
