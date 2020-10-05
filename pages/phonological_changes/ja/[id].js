@@ -1,12 +1,14 @@
-import dynamic from 'next/dynamic'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 import { useRouter } from 'next/router'
+import ReactMarkdown from 'react-markdown'
 import { firebase } from '../../../lib/firebase.js'
+import { renderers } from '../../../lib/markdown.js'
 import Breadcrumb from '../../../components/breadcrumb.js'
 import ListItem from '../../../components/listItem.js'
 
 
-
-export default function Index({change}) {
+export default function Index({change, content}) {
   const router = useRouter();
   if (router.isFallback) {
     return(
@@ -17,17 +19,10 @@ export default function Index({change}) {
   }
 
   const country = {
-    ja: {
-      name: '日本',
-      flag: '🇯🇵',
-    },
-    ko: {
-      name: '韓国',
-      flag: '🇰🇷',
-    },
+    ja: { name: '日本', flag: '🇯🇵', },
+    ko: { name: '韓国', flag: '🇰🇷', },
   }
 
-  const DynamicComponent = dynamic(() => import(`../../../components/phonological_changes/ja/${change.id}.js`));
   return (
     <>
       <Breadcrumb items={[
@@ -67,7 +62,7 @@ export default function Index({change}) {
         </table>
       </div>
 
-      <DynamicComponent />
+      <ReactMarkdown source={ content } renderers={renderers} escapeHtml={false} />
     </>
   )
 }
@@ -95,9 +90,13 @@ export async function getStaticProps({params}) {
     updatedAt: doc.data().updatedAt.toDate().toISOString(),
   });
 
+  const filePath = join(process.cwd(), `_contents/phonetic_changes/${params.id}.md`);
+  const content = readFileSync(filePath, 'utf8');
+
   return {
     props: {
       change: change,
+      content: content,
     }
   }
 }

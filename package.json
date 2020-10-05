@@ -8,7 +8,8 @@
     "kroman": "^1.0.1",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-markdown": "^4.3.1"
   },
   "devDependencies": {
     "autoprefixer": "^9.8.0",
