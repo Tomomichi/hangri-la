@@ -2,7 +2,8 @@ module.exports = {
   purge: [
     './pages/**/*.js',
     './components/**/*.js',
-    './_contents/**/*.js',
+    './lib/**/*.js',
+    './_contents/**/*.md',
   ],
   future: {
     removeDeprecatedGapUtilities: true,
