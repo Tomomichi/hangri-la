@@ -2,9 +2,9 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import { useRouter } from 'next/router'
 import ReactMarkdown from 'react-markdown'
-import { firebase } from '../../../lib/firebase.js'
-import { renderers } from '../../../lib/markdown.js'
-import Breadcrumb from '../../../components/breadcrumb.js'
+import { firebase } from '../../lib/firebase.js'
+import { renderers } from '../../lib/markdown.js'
+import Breadcrumb from '../../components/breadcrumb.js'
 
 
 export default function Index({change, content}) {
@@ -51,9 +51,9 @@ export async function getStaticPaths() {
   //   return {params: {id: doc.id}}
   // });
   const paths = [
-    {params: { id: 'ng_to_u'}},
-    {params: { id: 'ai_to_e'}},
-    {params: { id: 'drop_head_n'}},
+    {params: { id: ['ja', 'ng_to_u']}},
+    {params: { id: ['ja', 'ai_to_e']}},
+    {params: { id: ['ko', 'drop_head_n']}},
   ];
 
   return {
@@ -64,14 +64,15 @@ export async function getStaticPaths() {
 
 
 export async function getStaticProps({params}) {
-  const doc = await firebase.firestore().collection('phonological_changes').doc(params.id).get();
+  const id = params.id.pop(-1);
+  const doc = await firebase.firestore().collection('phonological_changes').doc(id).get();
   const change = await Object.assign(doc.data(), {
     id: doc.id,
     createdAt: doc.data().createdAt.toDate().toISOString(),
     updatedAt: doc.data().updatedAt.toDate().toISOString(),
   });
 
-  const filePath = join(process.cwd(), `_contents/phonetic_changes/${params.id}.md`);
+  const filePath = join(process.cwd(), `_contents/phonetic_changes/${id}.md`);
   let content;
   try{
     content = readFileSync(filePath, 'utf8');

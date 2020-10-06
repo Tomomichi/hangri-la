@@ -37,7 +37,7 @@ export async function getStaticPaths() {
   //   return {params: {id: doc.id}}
   // });
   const paths = [
-    {params: { id: 'introduction'}},
+    {params: { id: ['introduction']}},
   ];
 
   return {
@@ -48,7 +48,8 @@ export async function getStaticPaths() {
 
 
 export async function getStaticProps({params}) {
-  const filePath = join(process.cwd(), `_contents/columns/${params.id}.md`);
+  const id = params.id.pop(-1);
+  const filePath = join(process.cwd(), `_contents/columns/${id}.md`);
   const content = readFileSync(filePath, 'utf8');
 
   return {
