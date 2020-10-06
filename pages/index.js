@@ -19,7 +19,7 @@ export default function Index({chars, words}) {
             <svg className="fill-current text-gray-700 h-4 w-4 inline" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
             </svg>
-            <Link href="/about">
+            <Link href="/columns/introduction">
               <a className="border-b border-dashed border-gray-700 hover:opacity-75">もっとくわしく</a>
             </Link>
           </p>

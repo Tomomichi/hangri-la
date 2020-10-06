@@ -7,7 +7,7 @@ import { renderers } from '../../lib/markdown.js'
 import Breadcrumb from '../../components/breadcrumb.js'
 
 
-export default function Index({content}) {
+export default function Index({column, content}) {
   const router = useRouter();
   if (router.isFallback) {
     return(
@@ -21,9 +21,17 @@ export default function Index({content}) {
     <>
       <Breadcrumb items={[
         {text: 'コラム', href: '/columns', as: '/columns'},
-        {text: 'はじめに', href: `/columns/introduction`, as: `/columns/introduction`},
-        {text: 'なぜ漢字で韓国語なのか'},
+        {text: column.category, href: `/columns/introduction`, as: `/columns/introduction`},
+        {text: column.title},
       ]} />
+
+      <h1 className="font-bold mb-4 text-2xl p-2 border-b-4 border-t-4 border-gray-700">{ column.title }</h1>
+      <div className="flex -mb-8">
+        <div>{column.tags.map(tag => (
+          <span className="text-sm rounded bg-gray-200 px-2 py-1">{tag}</span>
+        ))}</div>
+        <div className="text-right flex-1">{column.publishedAt}</div>
+      </div>
 
       <ReactMarkdown source={ content } renderers={renderers} escapeHtml={false} />
     </>
@@ -52,8 +60,16 @@ export async function getStaticProps({params}) {
   const filePath = join(process.cwd(), `_contents/columns/${id}.md`);
   const content = readFileSync(filePath, 'utf8');
 
+  const column = {
+    title: 'どうして漢字で韓国語なの？',
+    category: 'はじめに',
+    tags: ['はじめに'],
+    publishedAt: '2020-10-05',
+  }
+
   return {
     props: {
+      column: column,
       content: content,
     }
   }
