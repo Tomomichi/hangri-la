@@ -39,28 +39,6 @@ export default function Index({change, content}) {
         </p>
       </div>
 
-      <div className="mb-12">
-        <table className="text-left text-sm border mb-4 w-full">
-          <tbody>
-            <tr className="rounded border-b">
-              <th className="p-2 bg-gray-100 border-r w-1/3 sm:w-1/4">国</th>
-              <td className="p-2">
-                <span className="mr-2">{country[change.language].flag}</span>
-                {country[change.language].name}
-              </td>
-            </tr>
-            <tr className="rounded border-b">
-              <th className="p-2 bg-gray-100 border-r">パターン</th>
-              <td className="p-2">ng（ン） → ウ（イ）</td>
-            </tr>
-            <tr className="rounded border-b">
-              <th className="p-2 bg-gray-100 border-r">時期</th>
-              <td className="p-2">〜7,8世紀</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
       <ReactMarkdown source={ content } renderers={renderers} escapeHtml={false} />
     </>
   )
@@ -72,7 +50,11 @@ export async function getStaticPaths() {
   // const paths = await snapshot.docs.map(doc => {
   //   return {params: {id: doc.id}}
   // });
-  const paths = [];
+  const paths = [
+    {params: { id: 'ng_to_u'}},
+    {params: { id: 'ai_to_e'}},
+    {params: { id: 'drop_head_n'}},
+  ];
 
   return {
     paths,
@@ -90,7 +72,13 @@ export async function getStaticProps({params}) {
   });
 
   const filePath = join(process.cwd(), `_contents/phonetic_changes/${params.id}.md`);
-  const content = readFileSync(filePath, 'utf8');
+  let content;
+  try{
+    content = readFileSync(filePath, 'utf8');
+  } catch(err) {
+    const wipFilePath = join(process.cwd(), `_contents/phonetic_changes/_wip.md`);
+    content = readFileSync(wipFilePath, 'utf8');
+  }
 
   return {
     props: {

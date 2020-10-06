@@ -1,3 +1,25 @@
+<table class="text-left text-sm border mb-4 w-full">
+  <tbody>
+    <tr class="rounded border-b">
+      <th class="p-2 bg-gray-100 border-r w-1/3 sm:w-1/4">国</th>
+      <td class="p-2">
+        <span class="mr-2">🇯🇵</span>
+        日本
+      </td>
+    </tr>
+    <tr class="rounded border-b">
+      <th class="p-2 bg-gray-100 border-r">パターン</th>
+      <td class="p-2">ng（ン） → ウ（イ）</td>
+    </tr>
+    <tr class="rounded border-b">
+      <th class="p-2 bg-gray-100 border-r">時期</th>
+      <td class="p-2">〜7,8世紀</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="mb-12"></div>
+
 ### 発音変化の詳細
 
 <div class="mb-8">
